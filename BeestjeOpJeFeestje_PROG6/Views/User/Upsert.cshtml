@@ -1,0 +1,69 @@
+@model BeestjeOpJeFeestje_PROG6.ViewModel.UserViewModel
+
+@{
+    ViewBag.Title = Model.Id == 0 ? "Create User" : "Edit User";
+}
+
+<div class="container mt-4">
+    <h1>@ViewBag.Title</h1>
+
+    <form method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">Email</label>
+            <input type="email" asp-for="Email" class="form-control" required />
+        </div>
+
+        <!-- Wachtwoord (zichtbaar, maar niet bewerkbaar) -->
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input type="text" asp-for="Password" class="form-control" readonly />
+        </div>
+
+        <!-- Card -->
+        <div class="mb-3">
+            <label asp-for="Card" class="form-label">Card</label>
+            <select asp-for="Card" class="form-select">
+                <option value="No Card">No Card</option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+                <option value="Platinum">Platinum</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label">PhoneNumber</label>
+            <input type="number" asp-for="PhoneNumber" class="form-control" required />
+        </div>
+        
+        <!-- Rol (dropdown) -->
+        <div class="mb-3">
+            <label asp-for="Role" class="form-label">Role</label>
+            <select asp-for="Role" class="form-select">
+                <option value="0">Gebruiker</option>
+                <option value="1">Admin</option>
+            </select>
+        </div>
+
+        <!-- Opslaan knop -->
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Read" asp-controller="User" class="btn btn-secondary">Cancel</a>
+    </form>
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    
+    @if (Model.Email != null)
+    {
+        <form id="deleteForm" asp-controller="User" asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
+            <button type="submit" class="btn btn-danger m-2">Delete User</button>
+        </form>
+    }
+    
+</div>
